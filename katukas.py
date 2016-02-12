@@ -19,7 +19,6 @@ def repeat(xfreq, yfreq):
 
 identity = repeat(1, 1)
 
-
 def polar():
     x = vx * 2 - 1
     y = vy * 2 - 1
@@ -27,10 +26,8 @@ def polar():
     phi = numpy.vectorize(math.atan2)(y, x)
     return r, phi / math.pi / 2
 
-
 def transpose(x, y):
     return y, x
-
 
 def hyp_x(x, y):
     return 1 / (x or 1e-10), y
