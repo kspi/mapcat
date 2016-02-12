@@ -17,6 +17,8 @@ def repeat(xfreq, yfreq):
         return x * xfreq, y * yfreq
     return transform
 
+identity = repeat(1, 1)
+
 
 def polar():
     x = vx * 2 - 1
@@ -35,6 +37,10 @@ def hyp_x(x, y):
 
 def hyp_y(x, y):
     return x, 1 / (y or 1e-10)
+
+
+def ramp_y(x, y):
+
 
 
 
@@ -73,7 +79,7 @@ def apply_transform(transform, in_file, out_file, out_size, oversampling=4):
 
 def main():
     #transform = compose(polar, transpose, repeat(55, -3))
-    transform = ramp_x()
+    transform = ramp_y()
     apply_transform(transform, 'input/katukas.png', 'out.png', 1000)
 
 
