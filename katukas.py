@@ -4,12 +4,6 @@ import numpy
 import math
 
 
-class Transform:
-    def __init__(fn, **kwargs):
-        self.fn = fn
-        self.kwargs = kwargs
-
-
 def compose(*transforms):
     def composed(*xy):
         for t in transforms:
