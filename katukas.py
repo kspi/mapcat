@@ -30,15 +30,11 @@ def transpose(x, y):
     return y, x
 
 
-def hyp_x():
-    def transform(x, y):
-        return 1 / (x or 1e-10), y
-    return transform
+def hyp_x(x, y):
+    return 1 / (x or 1e-10), y
 
-def hyp_y():
-    def transform(x, y):
-        return x, 1 / (y or 1e-10)
-    return transform
+def hyp_y(x, y):
+    return x, 1 / (y or 1e-10)
 
 
 
