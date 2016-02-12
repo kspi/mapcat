@@ -13,25 +13,21 @@ def compose(*transforms):
 
 
 def repeat(xfreq, yfreq):
-    def transform(x, y):
+    def repeat_transform(x, y):
         return x * xfreq, y * yfreq
     return transform
 
 
 def polar():
-    def transform(vx, vy):
-        x = vx * 2 - 1
-        y = vy * 2 - 1
-        r = numpy.sqrt(x * x + y * y)
-        phi = numpy.vectorize(math.atan2)(y, x)
-        return r, phi / math.pi / 2
-    return transform
+    x = vx * 2 - 1
+    y = vy * 2 - 1
+    r = numpy.sqrt(x * x + y * y)
+    phi = numpy.vectorize(math.atan2)(y, x)
+    return r, phi / math.pi / 2
 
 
-def transpose():
-    def transform(x, y):
-        return y, x
-    return transform
+def transpose(x, y):
+    return y, x
 
 
 def hyp_x():
