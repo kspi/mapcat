@@ -13,12 +13,10 @@ def compose(*transforms):
     return composed
 
 
-def repeat(xfreq, yfreq):
-    def repeat_transform(x, y):
-        return x * xfreq, y * yfreq
-    return repeat_transform
+def repeat(x, y, xfreq=1, yfreq=1):
+    return x * xfreq, y * yfreq
 
-identity = repeat(1, 1)
+identity = repeat
 
 def polar():
     x = vx * 2 - 1
