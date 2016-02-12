@@ -35,7 +35,6 @@ def hyp_x(x, y):
 def hyp_y(x, y):
     return x, 1 / (y or 1e-10)
 
-
 def ramp_y(x, y):
 
 
