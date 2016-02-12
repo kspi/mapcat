@@ -15,7 +15,7 @@ def compose(*transforms):
 def repeat(xfreq, yfreq):
     def repeat_transform(x, y):
         return x * xfreq, y * yfreq
-    return transform
+    return repeat_transform
 
 identity = repeat(1, 1)
 
