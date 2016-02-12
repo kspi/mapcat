@@ -4,16 +4,6 @@ import numpy
 import math
 
 
-def wrap1(x):
-    return numpy.fmod(x + 2 - numpy.ceil(x), 1)
-
-def wrap(x, w):
-    return (w * wrap1(x / w)).astype(int)
-
-def repeat1(x, n):
-    return numpy.repeat(x.reshape(x.shape[0], 1), n, 1)
-
-
 def compose(*transforms):
     def composed(*xy):
         for t in transforms:
@@ -54,6 +44,16 @@ def hyp_y():
         return x, 1 / (y or 1e-10)
     return transform
 
+
+
+def wrap1(x):
+    return numpy.fmod(x + 2 - numpy.ceil(x), 1)
+
+def wrap(x, w):
+    return (w * wrap1(x / w)).astype(int)
+
+def repeat1(x, n):
+    return numpy.repeat(x.reshape(x.shape[0], 1), n, 1)
 
 
 def apply_transform(transform, in_file, out_file, out_size, oversampling=4):
