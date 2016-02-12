@@ -73,7 +73,7 @@ def apply_transform(transform, in_file, out_file, out_size, oversampling=4):
 
 def main():
     #transform = compose(polar, transpose, repeat(55, -3))
-    #transform = compose(polar, transpose, repeat(55, -3))
+    transform = ramp_x()
     apply_transform(transform, 'input/katukas.png', 'out.png', 1000)
 
 
