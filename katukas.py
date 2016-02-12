@@ -2,6 +2,7 @@
 from PIL import Image
 import numpy
 import math
+from functools import partial
 
 
 def compose(*transforms):
