@@ -41,8 +41,7 @@ def apply_transform(transform, in_file, out_file, out_size, oversampling=1):
         ix = numpy.floor(wrap1(x) * k.shape[1]).astype(int)
         return k[iy, ix]
 
-    mimg = Image.new(kimg.mode, (w, h))
-    m = numpy.zeros_like(numpy.asarray(mimg))
+    m = numpy.zeros((w, h), dtype=numpy.uint8)
 
     ys = numpy.repeat(numpy.arange(0, m.shape[0]), m.shape[1])
     xs = numpy.tile(numpy.arange(0, m.shape[1]), m.shape[0])
@@ -67,11 +66,11 @@ def spiral(xy, freq, scale):
 
 
 def main():
-    size = 1000
-    oversampling = 6
-    apply_transform(partial(spiral, freq=17, scale=0.6), 'input/mono.png', 'mapcat_0.png', size, oversampling)
-    apply_transform(partial(spiral, freq=28, scale=1.0), 'input/mono.png', 'mapcat_1.png', size, oversampling)
-    apply_transform(partial(spiral, freq=39, scale=1.6), 'input/mono.png', 'mapcat_2.png', size, oversampling)
+    size = 2000
+    oversampling = 3
+    apply_transform(partial(spiral, freq=17, scale=0.6), 'input/mono.png', 'output/mapcat_0.png', size, oversampling)
+    apply_transform(partial(spiral, freq=23, scale=0.8), 'input/mono.png', 'output/mapcat_1.png', size, oversampling)
+    apply_transform(partial(spiral, freq=28, scale=1.0), 'input/mono.png', 'output/mapcat_2.png', size, oversampling)
 
 
 if __name__ == "__main__":
