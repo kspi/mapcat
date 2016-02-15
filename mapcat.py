@@ -8,24 +8,6 @@ from functools import partial
 def wrap1(x):
     return numpy.fmod(x + 2 - numpy.ceil(x), 1)
 
-def polar(xy):
-    vx, vy = xy
-    x = vx * 2 - 1
-    y = vy * 2 - 1
-    r = numpy.sqrt(x * x + y * y)
-    phi = numpy.vectorize(math.atan2)(y, x)
-    return phi / math.pi / 2, r
-
-def fascale(xy, kx=0, ky=0):
-    x, y = xy
-    return x * (1 + kx * numpy.floor(y)), y * (1 + ky * numpy.floor(x))
-
-
-
-def repeat1(x, n):
-    return numpy.repeat(x.reshape(x.shape[0], 1), n, 1)
-
-
 def apply_transform(transform, in_file, out_file, out_size, oversampling=1):
     print(out_file)
 
@@ -51,6 +33,15 @@ def apply_transform(transform, in_file, out_file, out_size, oversampling=1):
     if oversampling != 1:
         out.thumbnail((out_size, out_size))
     out.save(out_file)
+
+
+def polar(xy):
+    vx, vy = xy
+    x = vx * 2 - 1
+    y = vy * 2 - 1
+    r = numpy.sqrt(x * x + y * y)
+    phi = numpy.vectorize(math.atan2)(y, x)
+    return phi / math.pi / 2, r
 
 
 def spiral(xy, freq, scale):
