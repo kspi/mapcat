@@ -52,16 +52,25 @@ def apply_transform(transform, in_file, out_file, out_size, oversampling=1):
     out.save(out_file)
 
 
+def spiral(xy, freq, scale=1, power=math.exp(1)):
+    phi, r = polar(xy)
+
+    r = 1 - r
+    r_ofs = 0.7
+    r = scale * ((r + r_ofs)**power - r_ofs**power)
+    r = r + 1 * phi
+
+    phi = phi * freq
+
+    return phi, r
+
+
 def main():
-    def transform(xy):
-        x, y = xy
-        x, y = polar((x, y))
-        y = 1.3 - y
-        y = (y * 2)**2
-        y = y + 1 * x
-        x = x * 40
-        return x, y
-    apply_transform(transform, 'input/mono.png', 'out.png', 6000)
+    size = 1000
+    oversampling = 6
+    apply_transform(partial(spiral, freq=21, scale=1.0), 'input/mono.png', 'mapcat_0.png', size, oversampling)
+    apply_transform(partial(spiral, freq=35, scale=1.4), 'input/mono.png', 'mapcat_1.png', size, oversampling)
+    apply_transform(partial(spiral, freq=40, scale=1.8), 'input/mono.png', 'mapcat_2.png', size, oversampling)
 
 
 if __name__ == "__main__":
