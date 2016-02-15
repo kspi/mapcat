@@ -1,4 +1,7 @@
-OUT = mapcat_0.png mapcat_1.png mapcat_2.png
+OUT = \
+      output/mapcat_0.png \
+      output/mapcat_1.png \
+      output/mapcat_2.png
 
 view: $(OUT)
 	eog $(OUT)

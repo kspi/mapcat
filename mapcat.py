@@ -27,6 +27,8 @@ def repeat1(x, n):
 
 
 def apply_transform(transform, in_file, out_file, out_size, oversampling=1):
+    print(out_file)
+
     ow, oh = out_size, out_size
     w, h = ow * oversampling, oh * oversampling
 
@@ -52,12 +54,11 @@ def apply_transform(transform, in_file, out_file, out_size, oversampling=1):
     out.save(out_file)
 
 
-def spiral(xy, freq, scale=1, power=math.exp(1)):
+def spiral(xy, freq, scale):
     phi, r = polar(xy)
 
+    r = scale * numpy.log(scale * r + 1e-10) / numpy.log(1.61)
     r = 1 - r
-    r_ofs = 0.7
-    r = scale * ((r + r_ofs)**power - r_ofs**power)
     r = r + 1 * phi
 
     phi = phi * freq
@@ -68,9 +69,9 @@ def spiral(xy, freq, scale=1, power=math.exp(1)):
 def main():
     size = 1000
     oversampling = 6
-    apply_transform(partial(spiral, freq=21, scale=1.0), 'input/mono.png', 'mapcat_0.png', size, oversampling)
-    apply_transform(partial(spiral, freq=35, scale=1.4), 'input/mono.png', 'mapcat_1.png', size, oversampling)
-    apply_transform(partial(spiral, freq=40, scale=1.8), 'input/mono.png', 'mapcat_2.png', size, oversampling)
+    apply_transform(partial(spiral, freq=17, scale=0.6), 'input/mono.png', 'mapcat_0.png', size, oversampling)
+    apply_transform(partial(spiral, freq=28, scale=1.0), 'input/mono.png', 'mapcat_1.png', size, oversampling)
+    apply_transform(partial(spiral, freq=39, scale=1.6), 'input/mono.png', 'mapcat_2.png', size, oversampling)
 
 
 if __name__ == "__main__":
