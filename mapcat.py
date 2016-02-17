@@ -5,40 +5,46 @@ import math
 from functools import partial
 
 
+
+EPSILON = numpy.finfo(numpy.float).eps
+
+GOLDEN_RATIO = (1 + math.sqrt(5)) / 2
+
+
 def wrap1(x):
-    return numpy.fmod(x + 2 - numpy.ceil(x), 1)
+    return numpy.fmod(x + 1 - numpy.ceil(x), 1)
 
 def apply_transform(transform, in_file, out_file, out_size, oversampling=1):
     print(out_file)
 
-    ow, oh = out_size, out_size
-    w, h = ow * oversampling, oh * oversampling
+    w, h = out_size * oversampling, out_size * oversampling
 
-    kimg = Image.open(in_file)
-    k = numpy.asarray(kimg)
-    def kget(x, y):
-        x = numpy.nan_to_num(x)
-        y = numpy.nan_to_num(y)
-        iy = numpy.floor(wrap1(y) * k.shape[0]).astype(int)
-        ix = numpy.floor(wrap1(x) * k.shape[1]).astype(int)
-        return k[iy, ix]
+    element_img = Image.open(in_file)
+    element = numpy.asarray(element_img)
+    def sample(x, y):
+        iy = numpy.floor(wrap1(y) * element.shape[0]).astype(numpy.uint32)
+        ix = numpy.floor(wrap1(x) * element.shape[1]).astype(numpy.uint32)
+        return element[iy, ix]
 
-    m = numpy.zeros((w, h), dtype=numpy.uint8)
+    result = numpy.zeros((w, h), dtype=numpy.uint8)
 
-    ys = numpy.repeat(numpy.arange(0, m.shape[0]), m.shape[1])
-    xs = numpy.tile(numpy.arange(0, m.shape[1]), m.shape[0])
-    m[ys, xs] = kget(*transform((xs / w, ys / w)))
+    ys = numpy.repeat(numpy.arange(0, result.shape[0]), result.shape[1])
+    xs = numpy.tile(numpy.arange(0, result.shape[1]), result.shape[0])
+    result[ys, xs] = sample(*transform((xs / w, ys / w)))
 
-    out = Image.fromarray(m)
+    out = Image.fromarray(result)
     if oversampling != 1:
         out.thumbnail((out_size, out_size))
     out.save(out_file)
 
 
 def polar(xy):
-    vx, vy = xy
-    x = vx * 2 - 1
-    y = vy * 2 - 1
+    ox, oy = xy
+
+    # centered
+    x = ox * 2 - 1
+    y = oy * 2 - 1
+
     r = numpy.sqrt(x * x + y * y)
     phi = numpy.vectorize(math.atan2)(y, x)
     return phi / math.pi / 2, r
@@ -47,7 +53,7 @@ def polar(xy):
 def spiral(xy, freq, scale):
     phi, r = polar(xy)
 
-    r = scale * numpy.log(scale * r + 1e-10) / numpy.log(1.61)
+    r = scale * numpy.log(scale * r + EPSILON) / numpy.log(GOLDEN_RATIO)
     r = 1 - r
     r = r + 1 * phi
 
