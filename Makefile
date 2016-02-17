@@ -3,6 +3,10 @@ OUT = \
       output/mapcat_1.png \
       output/mapcat_2.png
 
+NEGATED = $(patsubst %.png,%_neg.png,$(OUT))
+
+all: $(OUT) $(NEGATED)
+
 .PHONY: view
 view: $(OUT)
 	eog $(OUT)
@@ -13,9 +17,12 @@ $(OUT): secondary
 secondary: mapcat.py input/mono.png
 	./mapcat.py
 
-input/mono.png: input/mono.svg
+%.png: %.svg
 	inkscape -e $@ $^
 	mogrify -type Grayscale $@
+
+%_neg.png: %.png
+	convert -negate $^ $@
 
 .PHONY: clean
 clean:
