@@ -5,6 +5,9 @@ OUT = \
 
 NEGATED = $(patsubst %.png,%_neg.png,$(OUT))
 
+run:
+	@./glcat.py
+
 all: $(OUT) $(NEGATED)
 
 .PHONY: view

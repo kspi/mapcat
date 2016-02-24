@@ -1,2 +1,5 @@
 *~
+/input/*.wav
 /input/*.png
+/output/*.webm
+/output/video*
